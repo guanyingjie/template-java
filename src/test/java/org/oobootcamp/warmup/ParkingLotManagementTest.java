@@ -1,19 +1,28 @@
 package org.oobootcamp.warmup;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.oobootcamp.exception.ParkingLotAvailableException;
 import org.oobootcamp.exception.TicketValidationException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ParkingLotManagementTest {
-  ArrayList<String> parkedCars = new ArrayList<String>(Arrays.asList("京A12345", "京A12346"));
+  private final List<String> parkedCars = new ArrayList<>();
 
-  private final ParkingLotManagement parkingLotManagement = new ParkingLotManagement(parkedCars);
+  private ParkingLotManagement parkingLotManagement;
+
+  @BeforeEach
+  void setUp() {
+    parkedCars.add("京A12345");
+    parkedCars.add("京A12346");
+
+    parkingLotManagement = new ParkingLotManagement(parkedCars);
+  }
 
   @Test
   void should_parked_success_when_parking_car_given_the_parkingLot_is_available() throws ParkingLotAvailableException {
