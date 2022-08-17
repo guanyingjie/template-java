@@ -12,7 +12,7 @@ public class ParkingLotManagement {
     this.parkedCars = parkedCars;
   }
 
-  public String parkingCar(String carNumber, boolean available) throws ParkingLotAvailableException {
+  public String parkCar(String carNumber, boolean available) throws ParkingLotAvailableException {
     if (!available) {
       throw new ParkingLotAvailableException("停车位已满");
     }
@@ -20,7 +20,7 @@ public class ParkingLotManagement {
     return carNumber;
   }
 
-  public String takingCar(String ticketNo) throws TicketValidationException {
+  public String pickUpCar(String ticketNo) throws TicketValidationException {
     if (!parkedCars.contains(ticketNo)) {
       throw new TicketValidationException("车票无效");
     }

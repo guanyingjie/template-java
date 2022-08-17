@@ -26,7 +26,7 @@ class ParkingLotManagementTest {
 
   @Test
   void should_parked_success_when_parking_car_given_the_parkingLot_is_available() throws ParkingLotAvailableException {
-    String tickerNo = parkingLotManagement.parkingCar("京A12345", true);
+    String tickerNo = parkingLotManagement.parkCar("京A12345", true);
 
     assertEquals("京A12345", tickerNo);
   }
@@ -34,13 +34,13 @@ class ParkingLotManagementTest {
   @Test
   void should_parked_failed_when_parking_car_given_the_parkingLot_is_not_available() {
 
-    assertThrows(ParkingLotAvailableException.class, () -> parkingLotManagement.parkingCar("京A12345", false));
+    assertThrows(ParkingLotAvailableException.class, () -> parkingLotManagement.parkCar("京A12345", false));
   }
 
   @Test
   void should_take_car_success_when_taking_car_given_the_user_have_car_in_parkingLot() throws TicketValidationException {
 
-    String carNumber = parkingLotManagement.takingCar("京A12345");
+    String carNumber = parkingLotManagement.pickUpCar("京A12345");
 
     assertEquals("京A12345", carNumber);
   }
@@ -48,6 +48,6 @@ class ParkingLotManagementTest {
   @Test
   void should_take_car_failed_when_taking_car_given_the_user_do_not_have_car_in_parkingLot() {
 
-    assertThrows(TicketValidationException.class, () -> parkingLotManagement.takingCar("京A1239"));
+    assertThrows(TicketValidationException.class, () -> parkingLotManagement.pickUpCar("京A1239"));
   }
 }
