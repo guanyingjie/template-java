@@ -1,14 +1,9 @@
 package org.oobootcamp.entity;
 
-public class Car {
+public record Car(String number) {
 
   public String getNumber() {
     return number;
   }
 
-  public Car(String number) {
-    this.number = number;
-  }
-
-  private final String number;
 }
