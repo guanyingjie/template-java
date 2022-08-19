@@ -34,8 +34,8 @@ class ParkingLotTest {
   @Test
   void should_parked_failed_when_parking_car_given_the_parkingLot_is_not_available() {
     Car car0 = new Car("京A12345");
-    Car car1 = new Car("京A12345");
-    Ticket ticket0 = new Ticket("京A12346");
+    Car car1 = new Car("京A12346");
+    Ticket ticket0 = new Ticket("京A12345");
     Ticket ticket1 = new Ticket("京A12346");
     parkedCars.put(ticket0, car0);
     parkedCars.put(ticket1, car1);
