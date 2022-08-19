@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import org.oobootcamp.entity.Car;
-import org.oobootcamp.entity.Ticket;
+import org.oobootcamp.dto.Car;
+import org.oobootcamp.dto.Ticket;
 import org.oobootcamp.exception.ParkingLotAvailableException;
 import org.oobootcamp.exception.TicketValidationException;
 

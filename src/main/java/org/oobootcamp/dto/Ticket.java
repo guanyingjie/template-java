@@ -1,4 +1,4 @@
-package org.oobootcamp.entity;
+package org.oobootcamp.dto;
 
 public record Ticket(String number) {
 
