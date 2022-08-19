@@ -1,8 +1,8 @@
 package org.oobootcamp.warmup;
 
 import java.util.Map;
-import org.oobootcamp.entity.Car;
-import org.oobootcamp.entity.Ticket;
+import org.oobootcamp.dto.Car;
+import org.oobootcamp.dto.Ticket;
 import org.oobootcamp.exception.ParkingLotAvailableException;
 import org.oobootcamp.exception.TicketValidationException;
 
@@ -20,7 +20,7 @@ public record ParkingLot(Map<Ticket, Car> parkedCars, int capacity) {
 
   public Car pickUpCar(Ticket ticket) {
 
-    if (null == parkedCars.get(ticket)) {
+    if (!parkedCars.containsKey(ticket)) {
       throw new TicketValidationException("车票无效");
     }
     Car car = parkedCars.get(ticket);
