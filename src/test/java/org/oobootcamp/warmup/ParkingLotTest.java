@@ -18,7 +18,7 @@ class ParkingLotTest {
 
   @Test
   void should_parked_success_when_parking_car_given_the_parkingLot_is_available() {
-    parkingLot = new ParkingLot(2);
+    parkingLot = new ParkingLot(2, 1);
     Car newCar = new Car("京A12346");
 
     Ticket newTicket = parkingLot.parkCar(newCar);
@@ -28,7 +28,7 @@ class ParkingLotTest {
 
   @Test
   void should_parked_failed_when_parking_car_given_the_parkingLot_is_not_available() {
-    parkingLot = new ParkingLot(1);
+    parkingLot = new ParkingLot(1, 1);
     Car car0 = new Car("京A12345");
     parkingLot.parkCar(car0);
     Car car1 = new Car("京A12346");
@@ -38,7 +38,7 @@ class ParkingLotTest {
 
   @Test
   void should_take_car_success_when_taking_car_given_the_user_have_car_in_parkingLot() {
-    parkingLot = new ParkingLot(2);
+    parkingLot = new ParkingLot(2, 1);
     Car car = new Car("京A12345");
     Ticket ticket = parkingLot.parkCar(car);
 
@@ -49,15 +49,15 @@ class ParkingLotTest {
 
   @Test
   void should_take_car_failed_when_taking_car_given_the_user_do_not_have_car_in_parkingLot() {
-    parkingLot = new ParkingLot(2);
-    Ticket ticket = new Ticket("京A12345");
+    parkingLot = new ParkingLot(2, 1);
+    Ticket ticket = new Ticket("京A12345", 1);
 
     assertThrows(TicketValidationException.class, () -> parkingLot.pickUpCar(ticket), "车票无效");
   }
 
   @Test
   void should_pick_failed_when_pick_up_car_given_ticket_is_used() {
-    parkingLot = new ParkingLot(2);
+    parkingLot = new ParkingLot(2, 1);
     Car car = new Car("京A12345");
     Ticket oldTicket = parkingLot.parkCar(car);
     parkingLot.pickUpCar(oldTicket);

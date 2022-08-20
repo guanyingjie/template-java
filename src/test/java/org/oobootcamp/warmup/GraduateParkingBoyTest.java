@@ -14,7 +14,7 @@ class GraduateParkingBoyTest {
   @Test
   void should_park_success_when_park_given_parkingLot_has_empty_space() {
     List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(2));
+            new ParkingLot(2, 1));
     GraduateParkingBoy graduateParkingBoy = new GraduateParkingBoy(parkingLots);
     Car car = new Car("京A12345");
 
@@ -27,8 +27,8 @@ class GraduateParkingBoyTest {
   @Test
   void should_park_to_second_parkingLot_success_when_park_given_the_first_parkingLot_is_full() {
     List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(1),
-            new ParkingLot(1)
+            new ParkingLot(1, 1),
+            new ParkingLot(1, 1)
     );
     GraduateParkingBoy graduateParkingBoy = new GraduateParkingBoy(parkingLots);
     Car car0 = new Car("京A12344");
@@ -45,7 +45,7 @@ class GraduateParkingBoyTest {
   @Test
   void should_park_failed_when_park_given_the_parkingLot_is_full() {
     List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(1)
+            new ParkingLot(1, 1)
     );
     GraduateParkingBoy graduateParkingBoy = new GraduateParkingBoy(parkingLots);
     Car car0 = new Car("京A12344");
@@ -59,7 +59,7 @@ class GraduateParkingBoyTest {
   @Test
   void should_pick_car_success_when_pick_car_given_ticket_is_valid() {
     List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(1)
+            new ParkingLot(1, 1)
     );
     GraduateParkingBoy graduateParkingBoy = new GraduateParkingBoy(parkingLots);
     Car car = new Car("京A12345");
@@ -73,10 +73,10 @@ class GraduateParkingBoyTest {
   @Test
   void should_pick_car_failed_when_pick_car_given_the_ticket_can_not_find_a_car() {
     List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(1)
+            new ParkingLot(1, 1)
     );
     GraduateParkingBoy graduateParkingBoy = new GraduateParkingBoy(parkingLots);
-    Ticket ticket = new Ticket("京A12345");
+    Ticket ticket = new Ticket("京A12345", 1);
 
     assertThrows(TicketValidationException.class, () -> graduateParkingBoy.pickUp(ticket));
   }
