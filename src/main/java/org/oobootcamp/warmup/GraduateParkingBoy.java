@@ -6,6 +6,7 @@ import org.oobootcamp.exception.ParkingLotAvailableException;
 import org.oobootcamp.exception.TicketValidationException;
 
 import java.util.List;
+import java.util.Objects;
 
 public class GraduateParkingBoy implements IParkingBoy {
   private final List<ParkingLot> parkingLots;
@@ -27,7 +28,7 @@ public class GraduateParkingBoy implements IParkingBoy {
   @Override
   public Car pickUp(Ticket ticket) {
     return parkingLots.stream()
-            .filter(parkingLot -> parkingLot.getParkingLogId() == ticket.getParkingLotId())
+            .filter(parkingLot -> Objects.equals(parkingLot.getParkingLogId(), ticket.getParkingLotId()))
             .findFirst()
             .map(parkingLot -> parkingLot.pickUpCar(ticket))
             .orElseThrow(() -> new TicketValidationException("该车票不属于本停车场"));

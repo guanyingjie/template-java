@@ -28,7 +28,7 @@ class GraduateParkingBoyTest {
   void should_park_to_second_parkingLot_success_when_park_given_the_first_parkingLot_is_full() {
     List<ParkingLot> parkingLots = List.of(
             new ParkingLot(1, 1),
-            new ParkingLot(1, 1)
+            new ParkingLot(1, 2)
     );
     GraduateParkingBoy graduateParkingBoy = new GraduateParkingBoy(parkingLots);
     Car car0 = new Car("京A12344");
