@@ -1,9 +1,14 @@
 package org.oobootcamp.dto;
 
-public record Car(String number) {
+public class Car {
+  public Car(String licensePlateNumber) {
+    this.licensePlateNumber = licensePlateNumber;
+  }
 
-  public String getNumber() {
-    return number;
+  private final String licensePlateNumber;
+
+  public String getLicensePlateNumber() {
+    return licensePlateNumber;
   }
 
 }

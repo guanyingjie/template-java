@@ -1,9 +1,14 @@
 package org.oobootcamp.dto;
 
-public record Ticket(String number) {
+public class Ticket {
+  private String ticketNo;
 
-  public String getNumber() {
-    return number;
+  public Ticket(String ticketNo) {
+    this.ticketNo = ticketNo;
+  }
+
+  public String getTicketNo() {
+    return ticketNo;
   }
 
 }
