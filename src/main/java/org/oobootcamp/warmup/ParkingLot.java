@@ -2,14 +2,20 @@ package org.oobootcamp.warmup;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.oobootcamp.dto.Car;
 import org.oobootcamp.dto.Ticket;
 import org.oobootcamp.exception.ParkingLotAvailableException;
 import org.oobootcamp.exception.TicketValidationException;
 
 public class ParkingLot {
-  private final Map<Ticket,Car> parkedCars = new HashMap<>();
-  private final Integer capacity;
+  private final Map<Ticket, Car> parkedCars = new HashMap<>();
+
+  public Integer getCapacity() {
+    return capacity;
+  }
+
+  private Integer capacity;
 
   public ParkingLot(Integer capacity) {
     this.capacity = capacity;
@@ -22,6 +28,7 @@ public class ParkingLot {
     Ticket ticket = new Ticket(car.getLicensePlateNumber());
 
     parkedCars.put(ticket, car);
+    --capacity;
     return ticket;
   }
 
@@ -32,6 +39,7 @@ public class ParkingLot {
     }
     Car car = parkedCars.get(ticket);
     parkedCars.remove(ticket);
+    ++capacity;
     return car;
   }
 }
