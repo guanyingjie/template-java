@@ -8,76 +8,67 @@ import org.oobootcamp.exception.TicketValidationException;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GraduateParkingBoyTest {
+  List<ParkingLot> parkingLots;
   @Test
-  void should_park_success_when_park_given_parkingLot_has_empty_space() {
-    List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(2, 1));
+  void should_park_success_when_park_car_given_the_parkingLot_is_available() {
+    parkingLots = List.of(new ParkingLot(2));
     GraduateParkingBoy graduateParkingBoy = new GraduateParkingBoy(parkingLots);
     Car car = new Car("京A12345");
 
-    Ticket ticket = graduateParkingBoy.park(car);
+    Ticket ticket = graduateParkingBoy.parkCar(car);
 
-    assertEquals(car.getLicensePlateNumber(), ticket.getTicketNo());
-    assertEquals(1, parkingLots.get(0).getCapacity());
+    assertThat(ticket).isNotNull();
+    assertThat(parkingLots.get(0).getCapacity()).isEqualTo(1);
   }
 
   @Test
-  void should_park_to_second_parkingLot_success_when_park_given_the_first_parkingLot_is_full() {
-    List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(1, 1),
-            new ParkingLot(1, 2)
-    );
+  void should_park_to_second_parkingLot_success_when_park_given_the_parkingLot_is_not_available() {
+    parkingLots = List.of(new ParkingLot(1), new ParkingLot(1));
+    GraduateParkingBoy graduateParkingBoy = new GraduateParkingBoy(parkingLots);
+    Car car0 = new Car("京A12344");
+    parkingLots.get(0).parkCar(car0);
+    Car car = new Car("京A12345");
+
+    Ticket ticket = graduateParkingBoy.parkCar(car);
+
+    assertThat(ticket).isNotNull();
+    assertThat(parkingLots.get(1).getCapacity()).isZero();
+  }
+
+  @Test
+  void should_park_failed_when_park_given_the_parkingLot_is_not_available() {
+    parkingLots = List.of(new ParkingLot(1));
     GraduateParkingBoy graduateParkingBoy = new GraduateParkingBoy(parkingLots);
     Car car0 = new Car("京A12344");
     parkingLots.get(0).parkCar(car0);
 
     Car car = new Car("京A12345");
 
-    Ticket ticket = graduateParkingBoy.park(car);
-
-    assertEquals(car.getLicensePlateNumber(), ticket.getTicketNo());
-    assertEquals(0, parkingLots.get(1).getCapacity());
+    assertThrows(ParkingLotAvailableException.class, () -> graduateParkingBoy.parkCar(car));
   }
 
   @Test
-  void should_park_failed_when_park_given_the_parkingLot_is_full() {
-    List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(1, 1)
-    );
-    GraduateParkingBoy graduateParkingBoy = new GraduateParkingBoy(parkingLots);
-    Car car0 = new Car("京A12344");
-    parkingLots.get(0).parkCar(car0);
-
-    Car car = new Car("京A12345");
-
-    assertThrows(ParkingLotAvailableException.class, () -> graduateParkingBoy.park(car));
-  }
-
-  @Test
-  void should_pick_car_success_when_pick_car_given_ticket_is_valid() {
-    List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(1, 1)
-    );
+  void should_pick_up_car_success_when_pick_up_car_given_ticket_is_valid() {
+    parkingLots = List.of(new ParkingLot(1));
     GraduateParkingBoy graduateParkingBoy = new GraduateParkingBoy(parkingLots);
     Car car = new Car("京A12345");
-    Ticket ticket = graduateParkingBoy.park(car);
+    Ticket ticket = graduateParkingBoy.parkCar(car);
 
-    Car car1 = graduateParkingBoy.pickUp(ticket);
+    Car car0 = graduateParkingBoy.pickUpCar(ticket);
 
-    assertEquals(car.getLicensePlateNumber(), car1.getLicensePlateNumber());
+    assertThat(car0).isEqualTo(car);
   }
 
   @Test
-  void should_pick_car_failed_when_pick_car_given_the_ticket_can_not_find_a_car() {
-    List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(1, 1)
-    );
+  void should_pick_up_car_failed_when_pick_up_car_given_ticket_is_invalid() {
+    parkingLots = List.of(new ParkingLot(1));
     GraduateParkingBoy graduateParkingBoy = new GraduateParkingBoy(parkingLots);
-    Ticket ticket = new Ticket("京A12345", 1);
+    Ticket ticket = new Ticket();
 
-    assertThrows(TicketValidationException.class, () -> graduateParkingBoy.pickUp(ticket));
+    assertThrows(TicketValidationException.class, () -> graduateParkingBoy.pickUpCar(ticket));
   }
 }

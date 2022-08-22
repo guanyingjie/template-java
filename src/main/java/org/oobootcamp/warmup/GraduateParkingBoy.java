@@ -6,18 +6,17 @@ import org.oobootcamp.exception.ParkingLotAvailableException;
 
 import java.util.List;
 
-public class GraduateParkingBoy extends IParkingBoy {
+public class GraduateParkingBoy extends PickUpCarBoy {
 
   public GraduateParkingBoy(List<ParkingLot> parkingLots) {
     this.parkingLots = parkingLots;
   }
 
-  public Ticket park(Car car) {
+  public Ticket parkCar(Car car) {
     return parkingLots.stream()
             .filter(parkingLot -> parkingLot.getCapacity() > 0)
             .findFirst()
-            .map(parkingLot ->
-                    parkingLot.parkCar(car))
-            .orElseThrow(() -> new ParkingLotAvailableException("停车位已满"));
+            .map(parkingLot -> parkingLot.parkCar(car))
+            .orElseThrow(ParkingLotAvailableException::new);
   }
 }

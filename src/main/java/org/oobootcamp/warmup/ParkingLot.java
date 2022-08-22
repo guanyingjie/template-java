@@ -9,44 +9,34 @@ import org.oobootcamp.exception.ParkingLotAvailableException;
 import org.oobootcamp.exception.TicketValidationException;
 
 public class ParkingLot {
+
   private final Map<Ticket, Car> parkedCars = new HashMap<>();
+  private int capacity;
 
-  public Integer getCapacity() {
-    return capacity;
-  }
-
-  private Integer capacity;
-
-  public Integer getParkingLogId() {
-    return parkingLogId;
-  }
-
-  private Integer parkingLogId;
-
-  public ParkingLot(Integer capacity, Integer parkingLogId) {
+  public ParkingLot(int capacity) {
     this.capacity = capacity;
-    this.parkingLogId = parkingLogId;
   }
+
+  public int getCapacity(){return capacity;}
 
   public Ticket parkCar(Car car) {
-    if (capacity <= parkedCars.size()) {
-      throw new ParkingLotAvailableException("停车位已满");
+    if (capacity < parkedCars.size()) {
+      throw new ParkingLotAvailableException();
     }
-    Ticket ticket = new Ticket(car.getLicensePlateNumber(),parkingLogId);
+    Ticket ticket = new Ticket();
 
     parkedCars.put(ticket, car);
-    --capacity;
+    capacity--;
     return ticket;
   }
 
   public Car pickUpCar(Ticket ticket) {
-
     if (!parkedCars.containsKey(ticket)) {
-      throw new TicketValidationException("车票无效");
+      throw new TicketValidationException();
     }
     Car car = parkedCars.get(ticket);
     parkedCars.remove(ticket);
-    ++capacity;
+    capacity++;
     return car;
   }
 }

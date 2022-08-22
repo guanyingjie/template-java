@@ -8,90 +8,80 @@ import org.oobootcamp.exception.TicketValidationException;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class SmartParkingBoyTest {
+  private List<ParkingLot> parkingLots;
   @Test
-  void should_park_success_when_park_given_parkingLot_has_empty_space() {
-    List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(2, 1));
+  void should_park_success_when_park_given_the_parkingLot_is_available() {
+    parkingLots = List.of(new ParkingLot(1));
     SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
     Car car = new Car("京A12345");
 
-    Ticket ticket = smartParkingBoy.park(car);
+    Ticket ticket = smartParkingBoy.parkCar(car);
 
-    assertEquals(car.getLicensePlateNumber(), ticket.getTicketNo());
-    assertEquals(1, parkingLots.get(0).getCapacity());
+    assertThat(ticket).isNotNull();
+    assertThat(parkingLots.get(0).getCapacity()).isZero();
   }
 
   @Test
-  void should_park_to_the_most_empty_parking_space_success_when_park_given_have_multiple_parkingLot() {
-    List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(3, 1),
-            new ParkingLot(4, 2)
-    );
+  void should_park_to_the_max_remain_capacity_parkingLot_when_park_car_given_multiple_parkingLot() {
+    parkingLots = List.of(new ParkingLot(1), new ParkingLot(2));
     SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
     Car car = new Car("京A12345");
 
-    Ticket ticket = smartParkingBoy.park(car);
+    Ticket ticket = smartParkingBoy.parkCar(car);
 
-    assertEquals(car.getLicensePlateNumber(), ticket.getTicketNo());
-    assertEquals(3, parkingLots.get(1).getCapacity());
+    assertThat(ticket).isNotNull();
+    assertThat(parkingLots.get(1).getCapacity()).isEqualTo(1);
   }
 
   @Test
-  void should_park_to_the_first_parkingLot_success_when_park_given_multiple_parkingLot_have_same_empty_parking_space() {
-    List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(3, 1),
-            new ParkingLot(3, 2)
-    );
+  void should_park_to_the_first_empty_parkingLot_when_park_car_given_multiple_parkingLot_and_remain_capacity_are_equal() {
+    parkingLots = List.of(new ParkingLot(1), new ParkingLot(1));
     SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
     Car car = new Car("京A12345");
 
-    Ticket ticket = smartParkingBoy.park(car);
+    Ticket ticket = smartParkingBoy.parkCar(car);
 
-    assertEquals(car.getLicensePlateNumber(), ticket.getTicketNo());
-    assertEquals(2, parkingLots.get(0).getCapacity());
+    assertThat(ticket).isNotNull();
+    assertThat(parkingLots.get(0).getCapacity()).isZero();
   }
 
   @Test
-  void should_park_failed_when_park_given_the_parkingLot_is_full() {
-    List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(1, 1)
-    );
+  void should_park_failed_when_park_car_given_the_parkingLot_is_not_available() {
+    parkingLots = List.of(new ParkingLot(1));
     SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
     Car car0 = new Car("京A12344");
     parkingLots.get(0).parkCar(car0);
 
     Car car = new Car("京A12345");
 
-    assertThrows(ParkingLotAvailableException.class, () -> smartParkingBoy.park(car));
+    assertThrows(ParkingLotAvailableException.class, () -> smartParkingBoy.parkCar(car));
   }
 
   @Test
-  void should_pick_car_success_when_pick_car_given_ticket_is_valid() {
-    List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(1, 1)
-    );
+  void should_pick_up_car_success_when_pick_up_car_given_ticket_is_valid() {
+    parkingLots = List.of(new ParkingLot(1));
     SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
     Car car = new Car("京A12345");
-    Ticket ticket = smartParkingBoy.park(car);
+    Ticket ticket = smartParkingBoy.parkCar(car);
 
-    Car car1 = smartParkingBoy.pickUp(ticket);
+    Car car0 = smartParkingBoy.pickUpCar(ticket);
 
-    assertEquals(car.getLicensePlateNumber(), car1.getLicensePlateNumber());
+    assertThat(car0).isEqualTo(car);
   }
 
   @Test
-  void should_pick_car_failed_when_pick_car_given_the_ticket_is_not_belong_to_parkingLot() {
-    List<ParkingLot> parkingLots = List.of(
-            new ParkingLot(1, 1)
-    );
+  void should_pick_car_failed_when_pick_car_given_ticket_is_invalid() {
+    parkingLots = List.of(new ParkingLot(1));
     SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
     Car car = new Car("京A12345");
-    smartParkingBoy.park(car);
-    Ticket ticket = new Ticket("京A12345", 2);
 
-    assertThrows(TicketValidationException.class, () -> smartParkingBoy.pickUp(ticket));
+    smartParkingBoy.parkCar(car);
+
+    Ticket ticket = new Ticket();
+    assertThrows(TicketValidationException.class, () -> smartParkingBoy.pickUpCar(ticket));
   }
 }
