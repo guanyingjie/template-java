@@ -6,7 +6,7 @@ import org.oobootcamp.exception.ParkingLotAvailableException;
 
 import java.util.List;
 
-public class GraduateParkingBoy extends PickUpCarBoy {
+public class GraduateParkingBoy extends ParkingBoy {
 
   public GraduateParkingBoy(List<ParkingLot> parkingLots) {
     this.parkingLots = parkingLots;
