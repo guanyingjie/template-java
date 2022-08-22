@@ -52,4 +52,15 @@ class ParkingLotTest {
 
     assertThrows(TicketValidationException.class, () -> parkingLot.pickUpCar(ticket));
   }
+
+  @Test
+  void should_pick_up_car_failed_when_pick_up_car_given_ticket_is_used() {
+    parkingLot = new ParkingLot(2);
+    Car car = new Car("京A12345");
+    Ticket ticket = parkingLot.parkCar(car);
+    Car car0 = parkingLot.pickUpCar(ticket);
+
+    assertThat(car0).isEqualTo(car);
+    assertThrows(TicketValidationException.class, () -> parkingLot.pickUpCar(ticket));
+  }
 }
