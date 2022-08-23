@@ -9,10 +9,12 @@ import org.oobootcamp.exception.TicketValidationException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class SmartParkingBoyTest {
   private List<ParkingLot> parkingLots;
+
   @Test
   void should_park_success_when_park_given_the_parkingLot_is_available() {
     parkingLots = List.of(new ParkingLot(1));
@@ -22,7 +24,7 @@ class SmartParkingBoyTest {
     Ticket ticket = smartParkingBoy.parkCar(car);
 
     assertThat(ticket).isNotNull();
-    assertThat(parkingLots.get(0).getCapacity()).isZero();
+    assertEquals(car, smartParkingBoy.pickUpCar(ticket));
   }
 
   @Test
@@ -34,7 +36,7 @@ class SmartParkingBoyTest {
     Ticket ticket = smartParkingBoy.parkCar(car);
 
     assertThat(ticket).isNotNull();
-    assertThat(parkingLots.get(1).getCapacity()).isEqualTo(1);
+    assertEquals(car, parkingLots.get(1).pickUpCar(ticket));
   }
 
   @Test
@@ -46,7 +48,7 @@ class SmartParkingBoyTest {
     Ticket ticket = smartParkingBoy.parkCar(car);
 
     assertThat(ticket).isNotNull();
-    assertThat(parkingLots.get(0).getCapacity()).isZero();
+    assertEquals(car, parkingLots.get(0).pickUpCar(ticket));
   }
 
   @Test

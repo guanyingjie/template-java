@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GraduateParkingBoyTest {
   List<ParkingLot> parkingLots;
+
   @Test
   void should_park_success_when_park_car_given_the_parkingLot_is_available() {
     parkingLots = List.of(new ParkingLot(2));
@@ -22,7 +23,7 @@ class GraduateParkingBoyTest {
     Ticket ticket = graduateParkingBoy.parkCar(car);
 
     assertThat(ticket).isNotNull();
-    assertThat(parkingLots.get(0).getCapacity()).isEqualTo(1);
+    assertEquals(car, graduateParkingBoy.pickUpCar(ticket));
   }
 
   @Test
@@ -36,7 +37,7 @@ class GraduateParkingBoyTest {
     Ticket ticket = graduateParkingBoy.parkCar(car);
 
     assertThat(ticket).isNotNull();
-    assertThat(parkingLots.get(1).getCapacity()).isZero();
+    assertEquals(car, parkingLots.get(1).pickUpCar(ticket));
   }
 
   @Test

@@ -15,7 +15,7 @@ public class SmartParkingBoy extends ParkingBoy {
 
   public Ticket parkCar(Car car) {
     return parkingLots.stream()
-            .max(Comparator.comparing(ParkingLot::getCapacity))
+            .max(Comparator.comparing(ParkingLot::getEmptySpace))
             .map(parkingLot -> parkingLot.parkCar(car))
             .orElseThrow(ParkingLotAvailableException::new);
   }

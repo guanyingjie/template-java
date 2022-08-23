@@ -14,7 +14,7 @@ public class GraduateParkingBoy extends ParkingBoy {
 
   public Ticket parkCar(Car car) {
     return parkingLots.stream()
-            .filter(parkingLot -> parkingLot.getCapacity() > 0)
+            .filter(ParkingLot::isAvailable)
             .findFirst()
             .map(parkingLot -> parkingLot.parkCar(car))
             .orElseThrow(ParkingLotAvailableException::new);
