@@ -17,10 +17,6 @@ public class ParkingLot {
     this.capacity = capacity;
   }
 
-  public int getCapacity() {
-    return capacity;
-  }
-
   public Ticket parkCar(Car car) {
     if (!isAvailable()) {
       throw new ParkingLotAvailableException();
