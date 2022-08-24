@@ -2,6 +2,7 @@ package org.oobootcamp.warmup;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.oobootcamp.dto.Car;
 import org.oobootcamp.dto.Ticket;
 import org.oobootcamp.exception.ParkingLotAvailableException;
@@ -21,7 +22,7 @@ public class ParkingLot {
   }
 
   public boolean isAvailable() {
-    return capacity - parkedCars.size() > 0;
+    return capacity > parkedCars.size();
   }
 
   public boolean isParkedCar(Ticket ticket) {

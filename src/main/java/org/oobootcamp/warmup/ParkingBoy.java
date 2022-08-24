@@ -12,9 +12,13 @@ public abstract class ParkingBoy {
   public abstract Ticket parkCar(Car car);
 
   public Car pickUpCar(Ticket ticket) {
-    return parkingLots.stream()
-        .filter(parkingLot -> parkingLot.isParkedCar(ticket))
-        .findFirst()
-        .map(parkingLot -> parkingLot.pickUpCar(ticket)).orElseThrow(TicketValidationException::new);
+    for (ParkingLot parkingLot : parkingLots) {
+      try {
+        return parkingLot.pickUpCar(ticket);
+      } catch (TicketValidationException ignored) {
+        // do nothing
+      }
+    }
+    throw new TicketValidationException();
   }
 }

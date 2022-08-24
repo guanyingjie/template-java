@@ -1,14 +1,15 @@
 package org.oobootcamp.warmup;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.oobootcamp.dto.Car;
 import org.oobootcamp.dto.Ticket;
 import org.oobootcamp.exception.ParkingLotAvailableException;
 import org.oobootcamp.exception.TicketValidationException;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class SmartParkingBoyTest {
 
