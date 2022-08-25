@@ -15,6 +15,7 @@ class SmartParkingBoyTest {
 
   private final ParkingLot parkingLotA = new ParkingLot(1);
   private final ParkingLot parkingLotB = new ParkingLot(2);
+  private final ParkingLot parkingLotC = new ParkingLot(1);
   private List<ParkingLot> parkingLots;
 
   @Test
@@ -25,7 +26,7 @@ class SmartParkingBoyTest {
 
     Ticket ticket = smartParkingBoy.parkCar(car);
 
-    assertThat(parkingLotB.isParkedCar(ticket)).isTrue();
+    assertThat(parkingLotB.hasCar(ticket)).isTrue();
   }
 
   @Test
@@ -36,18 +37,18 @@ class SmartParkingBoyTest {
 
     Ticket ticket = smartParkingBoy.parkCar(car);
 
-    assertThat(parkingLotB.isParkedCar(ticket)).isTrue();
+    assertThat(parkingLotB.hasCar(ticket)).isTrue();
   }
 
   @Test
   void should_park_to_the_first_empty_parkingLot_when_park_car_given_multiple_parkingLot_and_remain_capacity_are_equal() {
-    parkingLots = List.of(parkingLotA, new ParkingLot(1));
+    parkingLots = List.of(parkingLotA, parkingLotC);
     SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
     Car car = new Car();
 
     Ticket ticket = smartParkingBoy.parkCar(car);
 
-    assertThat(parkingLotA.isParkedCar(ticket)).isTrue();
+    assertThat(parkingLotA.hasCar(ticket)).isTrue();
   }
 
   @Test

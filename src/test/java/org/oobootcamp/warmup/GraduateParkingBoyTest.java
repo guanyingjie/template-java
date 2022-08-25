@@ -25,7 +25,7 @@ class GraduateParkingBoyTest {
 
     Ticket ticket = graduateParkingBoy.parkCar(car);
 
-    assertThat(parkingLotA.isParkedCar(ticket)).isTrue();
+    assertThat(parkingLotA.hasCar(ticket)).isTrue();
   }
 
   @Test
@@ -39,7 +39,7 @@ class GraduateParkingBoyTest {
     Ticket ticket = graduateParkingBoy.parkCar(car);
 
     assertThat(parkingLotA.isAvailable()).isFalse();
-    assertThat(parkingLotB.isParkedCar(ticket)).isTrue();
+    assertThat(parkingLotB.hasCar(ticket)).isTrue();
   }
 
   @Test

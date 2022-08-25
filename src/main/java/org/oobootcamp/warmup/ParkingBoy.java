@@ -7,18 +7,20 @@ import org.oobootcamp.exception.TicketValidationException;
 
 public abstract class ParkingBoy {
 
-  List<ParkingLot> parkingLots;
+  protected List<ParkingLot> parkingLots;
 
   public abstract Ticket parkCar(Car car);
 
   public Car pickUpCar(Ticket ticket) {
-    for (ParkingLot parkingLot : parkingLots) {
-      try {
-        return parkingLot.pickUpCar(ticket);
-      } catch (TicketValidationException ignored) {
-        // do nothing
-      }
-    }
-    throw new TicketValidationException();
+    return parkingLots.stream().filter(parkingLot -> parkingLot.hasCar(ticket)).findFirst()
+        .orElseThrow(TicketValidationException::new).pickUpCar(ticket);
+  }
+
+  public boolean isAvailable() {
+    return parkingLots.stream().anyMatch(ParkingLot::isAvailable);
+  }
+
+  public boolean hasCar(Ticket ticket) {
+    return parkingLots.stream().anyMatch(parkingLot -> parkingLot.hasCar(ticket));
   }
 }

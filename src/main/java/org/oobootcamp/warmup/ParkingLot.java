@@ -17,18 +17,6 @@ public class ParkingLot {
     this.capacity = capacity;
   }
 
-  public int getAvailableCapacity() {
-    return capacity - parkedCars.size();
-  }
-
-  public boolean isAvailable() {
-    return capacity > parkedCars.size();
-  }
-
-  public boolean isParkedCar(Ticket ticket) {
-    return parkedCars.containsKey(ticket);
-  }
-
   public Ticket parkCar(Car car) {
     if (!isAvailable()) {
       throw new ParkingLotAvailableException();
@@ -40,11 +28,22 @@ public class ParkingLot {
   }
 
   public Car pickUpCar(Ticket ticket) {
-    if (!isParkedCar(ticket)) {
+    if (!hasCar(ticket)) {
       throw new TicketValidationException();
     }
-    Car car = parkedCars.get(ticket);
-    parkedCars.remove(ticket);
-    return car;
+
+    return parkedCars.remove(ticket);
+  }
+
+  public boolean isAvailable() {
+    return capacity > parkedCars.size();
+  }
+
+  public boolean hasCar(Ticket ticket) {
+    return parkedCars.containsKey(ticket);
+  }
+
+  public Integer getEmptySpace() {
+    return capacity - parkedCars.size();
   }
 }

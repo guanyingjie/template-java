@@ -19,7 +19,7 @@ class ParkingLotTest {
     Car car = new Car();
 
     Ticket ticket = parkingLot.parkCar(car);
-    assertThat(parkingLot.isParkedCar(ticket)).isTrue();
+    assertThat(parkingLot.hasCar(ticket)).isTrue();
   }
 
   @Test
